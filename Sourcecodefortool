@@ -1,0 +1,10 @@
+require 'net/http'
+require 'uri'
+url = URI.parse('http://example.com/')
+http = Net::HTTP.new(url.host, url.port)
+request = Net::HTTP::Get.new(url.path)
+['A'*50, 'A'*100, 'A'*1000, 'A'*10000].each do |payload|
+  request['X-My-Header'] = payload
+  response = http.request(request)
+  puts "Sent #{payload.length} characters, response code was #{response.code}"
+end
